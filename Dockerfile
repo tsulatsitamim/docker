@@ -41,10 +41,11 @@ RUN install-php-extensions \
   intl \
   opcache \
   pdo_mysql \
-  mbstring \
+  # mbstring [already installed]
   pcntl \
   gd \
-  redis
+  redis \
+  zip
 
 # Get latest Composer
 COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
