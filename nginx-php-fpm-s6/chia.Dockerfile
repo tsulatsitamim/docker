@@ -1,4 +1,4 @@
-FROM phpdockerio/php74-fpm:latest
+FROM chialab/php:7.4-fpm
 
 # Fix debconf warnings upon build
 ARG DEBIAN_FRONTEND=noninteractive
@@ -10,14 +10,13 @@ RUN useradd -G www-data,root -o -u ${UID} -ms /bin/bash appuser
 ADD https://raw.githubusercontent.com/vishnubob/wait-for-it/master/wait-for-it.sh /bin/wait-for-it.sh
 RUN chmod +x /bin/wait-for-it.sh
 
-# Add S6 supervisor (for graceful stop)
-COPY s6.gz /tmp/s6-overlay-amd64.tar.gz
-# ADD https://github.com/just-containers/s6-overlay/releases/download/v2.0.0.1/s6-overlay-amd64.tar.gz /tmp/
-RUN tar xzf /tmp/s6-overlay-amd64.tar.gz -C / --exclude='./bin' && tar xzf /tmp/s6-overlay-amd64.tar.gz -C /usr ./bin
+# # Add S6 supervisor (for graceful stop)
+ADD https://github.com/just-containers/s6-overlay/releases/download/v2.1.0.2/s6-overlay-amd64-installer /tmp/
+RUN chmod +x /tmp/s6-overlay-amd64-installer && /tmp/s6-overlay-amd64-installer /
 
 # Install selected extensions and other stuff
 RUN apt-get update \
-    && apt-get -y --no-install-recommends install nginx php7.4-mysql php-redis php7.4-intl \
+    && apt-get -y --no-install-recommends install nginx \
     && apt-get clean; rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/* /usr/share/doc/*
 
 # Copy custom php.ini
@@ -32,4 +31,4 @@ WORKDIR /app
 USER appuser
 
 ENTRYPOINT ["/init"]
-# CMD []
+CMD []
