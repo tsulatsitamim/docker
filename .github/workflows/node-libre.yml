@@ -2,6 +2,8 @@ name: node-libre
 
 on:
   push:
+    paths:
+      - 'node-libre/**' 
     branches:
       - 'main'
 
