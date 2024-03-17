@@ -30,4 +30,4 @@ jobs:
         with:
           context: ./nginx
           push: true
-          tags: user/app:latest
+          tags: tsulatsitamim/nginx:latest
