@@ -1,4 +1,4 @@
 FROM nginxinc/nginx-unprivileged:alpine
 
-RUN curl -L -o /etc/nginx/conf.d/default.conf https://bit.ly/nginx-spa
+COPY default.conf /etc/nginx/conf.d/default.conf
 RUN sed -i '/}/i\    application/javascript mjs;' /etc/nginx/mime.types
